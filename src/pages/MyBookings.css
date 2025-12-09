@@ -1,0 +1,18 @@
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.booking-item {
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #2ecc71;
+  color: white;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.booking-item:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}

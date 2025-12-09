@@ -1,0 +1,22 @@
+.hall-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hall-item {
+  display: block;            /* важливо для посилання */
+  text-decoration: none;     /* прибирає підкреслення */
+  background-color: #3498db;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.hall-item:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
