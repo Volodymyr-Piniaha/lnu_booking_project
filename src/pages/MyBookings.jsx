@@ -1,24 +1,29 @@
+import { useEffect, useState } from "react";
 import "./MyBookings.css";
 
 export default function MyBookings() {
+  const [bookings, setBookings] = useState([]);
+  const userId = 1; // тут можна замінити на логін користувача
 
-  // Mocked data
-  const bookings = [
-    { id: 1, hall: "Main Hall", date: "2025-01-10", time: "10:00" },
-    { id: 2, hall: "Gym #1", date: "2025-01-12", time: "14:00" }
-  ];
+  useEffect(() => {
+    fetch(`http://<IP_BACKEND>:8000/api/mybookings/${userId}`)
+      .then(res => res.json())
+      .then(data => setBookings(data))
+      .catch(err => console.error(err));
+  }, []);
 
   return (
     <div className="page">
       <h1>My Bookings</h1>
-
-      <ul>
-        {bookings.map((b) => (
-          <li key={b.id}>
-            {b.hall} — {b.date} at {b.time}
-          </li>
-        ))}
-      </ul>
+      {bookings.length === 0 ? <p>No bookings yet.</p> :
+        <ul>
+          {bookings.map(b => (
+            <li key={b.ReservationID}>
+              {b.HallName} — {b.ReservationDate} at {b.StartTime} - {b.EndTime}
+            </li>
+          ))}
+        </ul>
+      }
     </div>
   );
 }
