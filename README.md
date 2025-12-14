@@ -1,3 +1,5 @@
+Folders `booking` and `lnu_booking_system` are from `backend`
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
