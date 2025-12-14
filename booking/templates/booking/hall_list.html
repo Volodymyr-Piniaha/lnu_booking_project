@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронювання Залів ЛНУ</title>
+    <style>
+        /* --- Базові стилі --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f9fa; /* Світлий фон */
+            color: #333;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* --- Шапка сайту --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #212529;
+        }
+
+        /* --- Кнопка Навігації --- */
+        .nav-button {
+            display: inline-block;
+            padding: 0.75rem 1.25rem;
+            background-color: #007bff; /* Синій колір */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .nav-button:hover {
+            background-color: #0056b3; /* Темніший синій при наведенні */
+        }
+
+        h2 {
+            font-weight: 300;
+            color: #444;
+        }
+
+        /* --- Сітка "Карток" для залів --- */
+        .hall-grid {
+            display: grid;
+            /* Створює адаптивні колонки:
+               вони будуть мінімум 280px, але розтягнуться, щоб заповнити місце */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .hall-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden; /* Щоб заокруглення працювало */
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .hall-card:hover {
+            transform: translateY(-5px); /* Ефект "підняття" */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .hall-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .hall-card-content {
+            padding: 1.5rem;
+        }
+
+        .hall-card-content h3 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            color: #0056b3; /* Акцентний колір для назви */
+        }
+
+        .hall-card-content p {
+            margin-bottom: 0;
+            color: #6c757d; /* Сірий текст для опису */
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* --- Футер (підвал) --- */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid #e0e0e0;
+            color: #888;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="header">
+            <h1>Спорткомплекс ЛНУ</h1>
+            <div>
+                {% if user.is_authenticated %}
+                    <span style="margin-right: 15px; color: #555;">Привіт, {{ user.username }}!</span>
+                    <a href="{% url 'my_reservations' %}" class="nav-button">Мої Бронювання</a>
+
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background:none; border:none; color:#dc3545; cursor:pointer; text-decoration:underline; margin-left:10px;">Вийти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-button" style="background-color: #6c757d;">Вхід</a>
+                    <a href="{% url 'signup' %}" class="nav-button">Реєстрація</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <main>
+            <h2>Оберіть зал для перегляду розкладу</h2>
+
+            <ul class="hall-grid">
+                {% for hall in halls %}
+                    <li class="hall-card">
+                        <a href="{% url 'hall_schedule' hall.id %}">
+                            <div class="hall-card-content">
+                                <h3>{{ hall.name }}</h3>
+                                <p>{{ hall.description|default:"Натисніть, щоб побачити деталі та розклад."|truncatewords:15 }}</p>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 LNU Booking System. Усі права захищено.</p>
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Підтвердження</title>
+    <style>body { font-family: sans-serif; padding: 40px; text-align: center; }</style>
+</head>
+<body>
+    <h1>Підтвердження бронювання</h1>
+    <p>Ви збираєтесь забронювати:</p>
+    <h2>{{ hall.name }}</h2>
+    <p>Час: {{ slot.start_time }} - {{ slot.end_time }}</p>
+    <p>Дата: {{ date }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="padding: 10px 20px; background: green; color: white; border: none; cursor: pointer;">
+            Підтвердити бронювання
+        </button>
+        <a href="{% url 'hall_schedule' hall.id %}" style="margin-left: 20px;">Скасувати</a>
+    </form>
+</body>
+</html>
